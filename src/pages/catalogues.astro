@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { seoTitle, seoDescription } from '../data/site';
+import cover1 from '../assets/site/catalogue-cover-1.png';
+import cover2 from '../assets/site/catalogue-cover-2.png';
+
+const title = seoTitle('Product Catalogues – Free PDF Downloads');
+const description = seoDescription(
+  'Download free Barmaan Dental product catalogues: dental & medical essentials plus Quick Medical Uniform collection. Premium Swiss Dispotech products for South African professionals.',
+  'Download Barmaan Dental product catalogues in PDF format.'
+);
+
+const catalogues = [
+  {
+    title: 'Barmaan Product Catalogue',
+    subtitle: 'Essentials for Dental Care',
+    text: 'Your one-stop-shop for all your medical and dental products. The complete Dispotech range for South African professionals.',
+    file: '/catalogues/Barmaan-dental-catalogue_compressed.pdf',
+    cover: cover1,
+    alt: 'Cover of the Barmaan Dental product catalogue – Essentials for Dental Care, disposable dental and medical supplies',
+  },
+  {
+    title: 'Quick Medical Uniform Catalogue',
+    subtitle: 'The NO IRON uniform in microfibre',
+    text: '0% wrinkles, 100% comfort. The full Quick Medical Uniform collection – modern apparel for medical and dental professionals.',
+    file: '/catalogues/Barmaan-dental-scrub-catalogue.pdf',
+    cover: cover2,
+    alt: 'Cover of the Quick Medical Uniform catalogue – NO IRON microfibre medical and dental uniforms',
+  },
+];
+---
+
+<BaseLayout title={title} description={description} path="/catalogues/">
+  <section class="cat-hero">
+    <div class="container">
+      <h1>Catalogues</h1>
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a> <span aria-hidden="true">/</span> <span>Catalogues</span>
+      </nav>
+    </div>
+  </section>
+
+  <section class="cat-body">
+    <div class="container cat-grid">
+      {catalogues.map((c) => (
+        <div class="cat-card">
+          <img class="cover" src={c.cover.src} alt={c.alt} width="600" height="799" loading="lazy" />
+          <h2>{c.title}</h2>
+          <p>{c.text}</p>
+          <a href={c.file} download class="btn btn-blue" aria-label={`Download ${c.title} PDF`}>
+            Click to download
+          </a>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <style>
+    .cat-hero { padding: 44px 0 10px; }
+    .cat-hero h1 { font-size: clamp(2rem, 4vw, 2.6rem); margin-bottom: 8px; }
+    .breadcrumb { font-size: 0.85rem; color: #8a99a6; }
+    .breadcrumb a:hover { color: var(--blue); }
+
+    .cat-body { padding: 34px 0 60px; }
+    .cat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 940px; }
+
+    .cat-card {
+      text-align: center; display: flex; flex-direction: column; gap: 14px;
+      align-items: center;
+    }
+    .cover {
+      width: 100%; aspect-ratio: 3/4; border-radius: 14px;
+      object-fit: cover;
+      box-shadow: 0 8px 24px rgba(13,110,166,.18);
+      transition: transform .2s;
+    }
+
+    .cat-card h2 { font-size: 1.25rem; }
+    .cat-card p { font-size: 0.9rem; max-width: 400px; }
+
+    @media (max-width: 720px) { .cat-grid { grid-template-columns: 1fr; } }
+  </style>
+</BaseLayout>

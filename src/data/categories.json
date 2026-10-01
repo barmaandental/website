@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "cold-line",
+    "name": "Cold line",
+    "count": 2,
+    "description": ""
+  },
+  {
+    "slug": "dispensers",
+    "name": "Dispensers",
+    "count": 5,
+    "description": ""
+  },
+  {
+    "slug": "disposables",
+    "name": "Disposables",
+    "count": 26,
+    "description": ""
+  },
+  {
+    "slug": "hemostats",
+    "name": "Hemostats",
+    "count": 2,
+    "description": ""
+  },
+  {
+    "slug": "impression-material",
+    "name": "Impression material",
+    "count": 2,
+    "description": ""
+  },
+  {
+    "slug": "medical-uniforms",
+    "name": "Medical uniforms",
+    "count": 44,
+    "description": ""
+  },
+  {
+    "slug": "uncategorized",
+    "name": "Uncategorized",
+    "count": 0,
+    "description": ""
+  }
+]

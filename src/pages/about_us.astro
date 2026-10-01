@@ -1,0 +1,172 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { seoTitle, seoDescription, site } from '../data/site';
+
+const title = seoTitle('About Us – Trusted Dental Solution for South Africa');
+const description = seoDescription(
+  'Learn about Barmaan Dental – the exclusive South African distributor of Dispotech Switzerland, supplying certified European dental & medical products with reliable local support since day one.',
+  'About Barmaan Dental, exclusive distributor of Dispotech Switzerland in South Africa.'
+);
+
+const whyChoose = [
+  { title: 'European Quality', text: 'ISO-certified disposable dental and medical products crafted to European standards.' },
+  { title: 'Local Availability', text: 'Building transparency through authentic Swiss quality, clear pricing, and long-term supply reliability.' },
+  { title: 'Expert Support', text: 'Our team provides technical expertise and hands-on assistance tailored to the South African market.' },
+  { title: 'Trusted Partnership', text: 'Building long-term relationships with dental clinics and distributors through dependable service.' },
+];
+
+const whoWeServe = [
+  { title: 'Dental Practices', text: 'Everyday consumables for general and specialist dental practices.' },
+  { title: 'Hospitals & Clinics', text: 'Reliable disposable medical and dental products with consistent nationwide supply.' },
+  { title: 'Distributors & Resellers', text: 'Flexible wholesale partnerships with competitive pricing and dependable stock availability.' },
+  { title: 'Dental Universities & Training Centres', text: 'Supporting dental education with trusted, high-quality clinical consumables.' },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: 'About Barmaan Dental',
+  url: `${site.domain}/about_us/`,
+};
+---
+
+<BaseLayout title={title} description={description} path="/about_us/" jsonLd={jsonLd}>
+  <section class="about-hero">
+    <div class="container">
+      <p class="hero-badge">● Official South African Distributor of Dispotech Switzerland</p>
+      <h1>Trusted Dental Solution for South African Professionals</h1>
+      <p class="hero-sub">Barmaan Dental is the exclusive South African distributor of Dispotech, supplying high-quality disposable dental and medical products to clinics, hospitals and distributors across the country. We combine European manufacturing standards with reliable local support, fast delivery and professional service.</p>
+      <a href="/contact-us/" class="btn btn-outline-white">Contact Our Team</a>
+    </div>
+  </section>
+
+  <section class="story">
+    <div class="container story-grid">
+      <div class="story-img">
+        <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800&q=75" alt="Dental professionals in surgical attire preparing Barmaan Dental supplies in a clinical setting" width="800" height="600" loading="lazy" />
+      </div>
+      <div class="story-text">
+        <h2>Engineering Better Dental Care Across South Africa</h2>
+        <p>Barmaan Dental is the exclusive South African distributor of Dispotech, a leading European manufacturer of high-quality disposable dental and medical products. We help dental practices, hospitals and distributors access reliable certified solutions backed by professional local support.</p>
+        <p>Our commitment goes beyond supplying products. We build long-term partnerships by offering expert advice, consistent stock availability, fast nationwide delivery and dependable customer service, ensuring our clients can focus on delivering exceptional patient care.</p>
+        <div class="cert">
+          <strong>Certified European Quality</strong>
+          <span>Manufactured to ISO and European quality standards</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="partner-band">
+    <div class="container">
+      <div class="pb-card">
+        <div>
+          <span class="pb-badge">Official Swiss Partner</span>
+          <h2>Official South African Home of Dipotech Switzerland</h2>
+          <p>We are the sole authorized distributor of Dipotech medical and dental systems in South Africa, bringing decades of Swiss innovation directly to your local facility.</p>
+          <span class="swiss">🇨🇭 SWISS MADE</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="why">
+    <div class="container">
+      <h2 class="section-title">Why Choose Barmaan Dental</h2>
+      <p class="section-sub">We combine premium European products with dependable local service to support dental professionals across South Africa.</p>
+      <div class="why-grid">
+        {whyChoose.map((w) => (
+          <div class="why-card">
+            <h3>{w.title}</h3>
+            <p>{w.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="serve">
+    <div class="container">
+      <h2>Who We Serve</h2>
+      <p class="serve-sub">We proudly supply high-quality disposable dental products to practices, institutions and distributors across South Africa.</p>
+      <div class="serve-grid">
+        {whoWeServe.map((s) => (
+          <div class="serve-card">
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .about-hero {
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%);
+      color: var(--white); text-align: center; padding: 80px 0 90px;
+    }
+    .about-hero h1 { color: var(--white); font-size: clamp(1.9rem, 4vw, 2.7rem); max-width: 800px; margin: 14px auto 18px; }
+    .hero-badge { font-size: 0.85rem; font-weight: 600; opacity: .92; }
+    .hero-sub { max-width: 760px; margin: 0 auto 28px; font-size: 0.95rem; opacity: .95; }
+
+    .story { padding: 64px 0; }
+    .story-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 50px; align-items: center; }
+    .story-img img { border-radius: 18px; width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+    .story-text h2 { margin-bottom: 18px; font-size: 1.6rem; }
+    .story-text p { font-size: 0.93rem; margin-bottom: 14px; }
+    .cert { margin-top: 20px; display: flex; flex-direction: column; }
+    .cert strong { color: var(--heading); font-size: 1.05rem; }
+    .cert span { font-size: 0.85rem; color: #6a7a88; }
+
+    .partner-band { padding: 0 0 64px; }
+    .pb-card {
+      background: var(--blue); color: var(--white); border-radius: 22px;
+      padding: 44px; position: relative; overflow: hidden;
+    }
+    .pb-card::after {
+      content: ''; position: absolute; right: -60px; top: 50%; transform: translateY(-50%);
+      width: 260px; height: 260px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,.18) 0%, transparent 70%);
+    }
+    .pb-badge {
+      background: rgba(255,255,255,.18); border-radius: 999px;
+      padding: 5px 16px; font-size: 0.8rem; font-weight: 600;
+    }
+    .pb-card h2 { color: var(--white); font-size: clamp(1.4rem, 3vw, 2rem); margin: 16px 0 12px; max-width: 520px; }
+    .pb-card p { max-width: 560px; font-size: 0.92rem; opacity: .95; }
+    .swiss {
+      display: inline-block; margin-top: 18px; background: var(--white); color: var(--blue-deep);
+      border-radius: 10px; padding: 10px 22px; font-weight: 700; letter-spacing: .08em; font-size: .85rem;
+    }
+
+    .why { padding: 0 0 64px; }
+    .why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .why-card {
+      border: 1px solid #d9edf9; border-radius: 14px; padding: 24px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .why-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(13,110,166,.1); }
+    .why-card h3 { font-size: 1.05rem; margin-bottom: 10px; }
+    .why-card p { font-size: 0.85rem; }
+
+    .serve { background: #f4f9fc; padding: 64px 0; }
+    .serve h2 { font-size: 1.7rem; margin-bottom: 8px; }
+    .serve-sub { font-size: 0.92rem; margin-bottom: 34px; }
+    .serve-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .serve-card {
+      background: var(--white); border: 1px solid #e2edf5; border-radius: 14px;
+      padding: 24px; transition: transform .2s, box-shadow .2s;
+    }
+    .serve-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(13,110,166,.1); }
+    .serve-card h3 { font-size: 1.02rem; margin-bottom: 10px; }
+    .serve-card p { font-size: 0.84rem; }
+
+    @media (max-width: 900px) {
+      .story-grid { grid-template-columns: 1fr; }
+      .why-grid, .serve-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .why-grid, .serve-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</BaseLayout>

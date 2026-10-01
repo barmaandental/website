@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { products, categories } from '../data/catalog';
+import { seoTitle, seoDescription, site } from '../data/site';
+
+const title = seoTitle('Shop All Dental & Medical Products');
+const description = seoDescription(
+  'Browse the full Barmaan Dental range: 81 premium dental & medical products from Dispotech Switzerland – disposables, uniforms, dispensers, hemostats and more. WhatsApp us for pricing.',
+  'Browse and shop premium Swiss dental and medical products at Barmaan Dental, South Africa.'
+);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Shop – Barmaan Dental Products',
+  url: `${site.domain}/shop/`,
+  numberOfItems: products.length,
+};
+---
+
+<BaseLayout title={title} description={description} path="/shop/" jsonLd={jsonLd}>
+  <section class="shop-hero">
+    <div class="container">
+      <h1>Shop</h1>
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a> <span aria-hidden="true">/</span> <span>Shop</span>
+      </nav>
+    </div>
+  </section>
+
+  <section class="shop-body">
+    <div class="container">
+      <div class="shop-controls">
+        <p class="count">Showing {products.length} products</p>
+        <label class="search-wrap">
+          <span class="sr-only">Search products</span>
+          <input type="search" id="product-search" placeholder="Search products…" autocomplete="off" />
+        </label>
+      </div>
+
+      <div class="cat-filter" role="tablist" aria-label="Filter by category">
+        <button class="filter-btn active" data-cat="all">All</button>
+        {categories.map((c) => (
+          <button class="filter-btn" data-cat={c.slug}>{c.name} ({c.count})</button>
+        ))}
+      </div>
+
+      <div class="products-grid" id="products-grid">
+        {products.map((p) => (
+          <div class="product-item" data-cats={p.categories.join(' ')} data-name={p.title.toLowerCase()}>
+            <ProductCard
+              title={p.title}
+              slug={p.slug}
+              image={p.imageMeta}
+              imageName={p.image}
+              category={p.categories[0]}
+            />
+          </div>
+        ))}
+      </div>
+      <p class="no-results" id="no-results" hidden>No products match your search.</p>
+    </div>
+  </section>
+
+  <script>
+    const search = document.getElementById('product-search') as HTMLInputElement | null;
+    const btns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const items = document.querySelectorAll<HTMLElement>('.product-item');
+    const noResults = document.getElementById('no-results');
+    let activeCat = 'all';
+
+    function applyFilter() {
+      const q = (search?.value || '').toLowerCase().trim();
+      let visible = 0;
+      items.forEach((el) => {
+        const matchCat = activeCat === 'all' || el.dataset.cats?.split(' ').includes(activeCat);
+        const matchQ = !q || (el.dataset.name || '').includes(q);
+        const show = matchCat && matchQ;
+        el.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      if (noResults) noResults.hidden = visible > 0;
+    }
+
+    search?.addEventListener('input', applyFilter);
+    btns.forEach((b) =>
+      b.addEventListener('click', () => {
+        btns.forEach((x) => x.classList.remove('active'));
+        b.classList.add('active');
+        activeCat = b.dataset.cat || 'all';
+        applyFilter();
+      })
+    );
+  </script>
+
+  <style>
+    .shop-hero { padding: 44px 0 10px; }
+    .shop-hero h1 { font-size: clamp(2rem, 4vw, 2.6rem); margin-bottom: 8px; }
+    .breadcrumb { font-size: 0.85rem; color: #8a99a6; }
+    .breadcrumb a:hover { color: var(--blue); }
+
+    .shop-body { padding: 30px 0 60px; }
+    .shop-controls {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 20px; flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .count { font-size: 0.9rem; color: #6a7a88; }
+    .search-wrap input {
+      padding: 10px 18px; border: 1px solid #cfe3f0; border-radius: 999px;
+      font-family: inherit; font-size: 0.9rem; min-width: 260px;
+      outline: none; transition: border .2s;
+    }
+    .search-wrap input:focus { border-color: var(--blue); }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);
+    }
+
+    .cat-filter { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; }
+    .filter-btn {
+      padding: 8px 18px; border-radius: 999px; border: 1px solid #cfe3f0;
+      background: var(--white); color: var(--text); font-family: inherit;
+      font-size: 0.84rem; font-weight: 600; cursor: pointer; transition: all .2s;
+    }
+    .filter-btn:hover { border-color: var(--blue); color: var(--blue); }
+    .filter-btn.active { background: var(--blue); border-color: var(--blue); color: var(--white); }
+
+    .products-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px;
+    }
+    .no-results { text-align: center; padding: 40px 0; color: #6a7a88; }
+
+    @media (max-width: 1000px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 720px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 440px) { .products-grid { grid-template-columns: 1fr; } }
+  </style>
+</BaseLayout>

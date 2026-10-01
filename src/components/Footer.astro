@@ -1,0 +1,88 @@
+---
+import { site, whatsappLink } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<div class="cta-band">
+  <div class="container cta-inner">
+    <div class="cta-text">
+      <h2>Need Product Information or Pricing?</h2>
+      <p>Our experts are available via call, email, or WhatsApp.</p>
+    </div>
+    <div class="cta-actions">
+      <a href="/contact-us/" class="btn btn-blue">Request Pricing</a>
+      <a href={site.phoneLink} class="btn btn-gray">call now</a>
+      <a href={whatsappLink('Hello Barmaan Dental, I have a question about your products.')} target="_blank" rel="noopener" class="btn btn-green">WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h3>Barmaan Dental</h3>
+        <p>Premium Swiss dental &amp; medical solutions for South African professionals. Exclusive distributor of Dispotech (Dipotech Switzerland).</p>
+      </div>
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/shop/">Shop</a></li>
+          <li><a href="/catalogues/">Catalogues</a></li>
+          <li><a href="/about_us/">About Us</a></li>
+          <li><a href="/contact-us/">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>Contact</h3>
+        <ul>
+          <li><a href={site.phoneLink}>{site.phone}</a></li>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          <li><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener">WhatsApp Support</a></li>
+          <li>Cape Town, South Africa</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© {year} Barmaan Dental. All rights reserved. Exclusive South African distributor of Dipotech Switzerland products.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .cta-band {
+    margin: 40px 20px 30px;
+    background: var(--bg-light);
+    border: 1px solid #d9edf9;
+    border-radius: 24px;
+    padding: 44px 40px;
+  }
+  .cta-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 30px; flex-wrap: wrap;
+  }
+  .cta-text h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin-bottom: 8px; }
+  .cta-text p { font-size: 0.95rem; }
+  .cta-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  .site-footer { background: #f4f9fc; padding: 48px 0 0; }
+  .footer-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+    padding-bottom: 36px;
+  }
+  .footer-col h3 { font-size: 1.05rem; margin-bottom: 14px; }
+  .footer-col p, .footer-col ul { font-size: 0.9rem; }
+  .footer-col ul { list-style: none; }
+  .footer-col li { margin-bottom: 8px; }
+  .footer-col a:hover { color: var(--blue); }
+  .footer-bottom {
+    border-top: 1px solid #e2edf5; padding: 18px 0; text-align: center;
+    font-size: 0.82rem; color: #7c8b97;
+  }
+  @media (max-width: 768px) {
+    .footer-grid { grid-template-columns: 1fr; }
+    .cta-band { padding: 32px 24px; }
+  }
+</style>

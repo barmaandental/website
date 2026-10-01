@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { categories, getProductsByCategory, getCategory } from '../../data/catalog';
+import { seoTitle, seoDescription, site } from '../../data/site';
+
+export async function getStaticPaths() {
+  const { categories } = await import('../../data/catalog');
+  return categories.map((c) => ({ params: { slug: c.slug }, props: { category: c } }));
+}
+
+const { category } = Astro.props;
+const catProducts = getProductsByCategory(category.slug);
+
+const title = seoTitle(`${category.name} – Dental & Medical Products`);
+const description = seoDescription(
+  `Browse ${category.count} ${category.name} products from Dispotech Switzerland at Barmaan Dental – the exclusive South African distributor. WhatsApp us for pricing and availability.`,
+  `Premium ${category.name} products from Barmaan Dental South Africa.`
+);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `${category.name} – Barmaan Dental`,
+  url: `${site.domain}/product-category/${category.slug}/`,
+  numberOfItems: catProducts.length,
+};
+---
+
+<BaseLayout title={title} description={description} path={`/product-category/${category.slug}/`} jsonLd={jsonLd}>
+  <section class="cat-hero">
+    <div class="container">
+      <h1>{category.name}</h1>
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a> <span aria-hidden="true">/</span>
+        <a href="/shop/">Shop</a> <span aria-hidden="true">/</span>
+        <span>{category.name}</span>
+      </nav>
+      <p class="cat-count">{catProducts.length} products</p>
+    </div>
+  </section>
+
+  <section class="cat-body">
+    <div class="container">
+      {category.description && <p class="cat-desc">{category.description}</p>}
+      <div class="products-grid">
+        {catProducts.map((p) => (
+          <ProductCard title={p.title} slug={p.slug} image={p.imageMeta} imageName={p.image} category={p.categories[0]} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .cat-hero { padding: 44px 0 10px; }
+    .cat-hero h1 { font-size: clamp(2rem, 4vw, 2.6rem); margin-bottom: 8px; }
+    .breadcrumb { font-size: 0.85rem; color: #8a99a6; }
+    .breadcrumb a:hover { color: var(--blue); }
+    .cat-count { margin-top: 10px; font-size: 0.9rem; color: #6a7a88; }
+
+    .cat-body { padding: 26px 0 60px; }
+    .cat-desc { max-width: 760px; margin-bottom: 30px; font-size: 0.95rem; }
+    .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+
+    @media (max-width: 1000px) { .products-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 720px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 440px) { .products-grid { grid-template-columns: 1fr; } }
+  </style>
+</BaseLayout>

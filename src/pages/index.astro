@@ -1,0 +1,199 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site, seoTitle, seoDescription, whatsappLink } from '../data/site';
+import { categories } from '../data/catalog';
+import heroImg from '../assets/site/hero.webp';
+
+const title = seoTitle('Premium Swiss Dental & Medical Solutions', 'Home');
+const description = seoDescription(
+  'Barmaan Dental – exclusive South African distributor of Dispotech Switzerland. Premium disposable dental & medical supplies for clinics and professionals across South Africa.',
+  site.description
+);
+
+const catList = categories.filter((c) =>
+  ['disposables', 'medical-uniforms', 'cold-line', 'dispensers', 'hemostats', 'impression-material'].includes(c.slug)
+);
+
+const catMeta: Record<string, string> = {
+  disposables: 'High-quality dental disposables designed to support infection control, clinical efficiency, and patient safety in every procedure.',
+  'medical-uniforms': 'High-quality healthcare apparel combining modern design, exceptional comfort, and long-lasting performance for medical and dental professionals.',
+  'cold-line': 'High-quality reusable and disposable ice packs engineered for effective cold therapy, helping manage inflammation and improve patient recovery outcomes.',
+  dispensers: 'Durable and hygienic dispensers designed to ensure controlled, efficient, and contamination-free access to clinical consumables.',
+  hemostats: 'Reliable absorbent solutions for fast bleeding control and improved procedural efficiency in clinical environments.',
+  'impression-material': 'Precision dental impression materials engineered for accuracy, detail reproduction, and dependable clinical results.',
+};
+
+const features = [
+  { icon: '★', title: 'Exclusive Distribution', text: 'We hold exclusive rights to distribute the full Dispotech Switzerland catalog within South Africa, ensuring direct access to authentic Swiss quality.' },
+  { icon: '💬', title: 'Authentic Swiss Quality', text: 'All products are certified for origin and supported by an official manufacturer warranty, ensuring complete confidence in quality and performance.' },
+  { icon: '👤', title: 'Professional Support', text: 'Our team provides technical orientation and clinical support for all complex systems.' },
+  { icon: '🚚', title: 'Fast Communication', text: 'Responsive WhatsApp support and rapid quotation turnaround designed to keep your practice running efficiently.' },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: site.name,
+  url: site.domain,
+};
+---
+
+<BaseLayout title={title} description={description} path="/" jsonLd={jsonLd}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h1>Premium Swiss Dental &amp; Medical Solutions for South African Professionals</h1>
+        <div class="hero-btns">
+          <a href="/contact-us/" class="btn btn-blue">Request a Quote</a>
+          <a href={whatsappLink('Hello Barmaan Dental, I would like to know more about your products.')} target="_blank" rel="noopener" class="btn btn-green">WhatsApp Us</a>
+        </div>
+        <p class="hero-note">As the exclusive distributor of <strong>Dipotech Switzerland</strong> in South Africa, Barmaan Dental provides dental professionals with advanced products engineered to meet the highest standards of quality, precision, and reliability.</p>
+      </div>
+      <div class="hero-img">
+        <img src={heroImg.src} alt="Dental treatment room with Dispotech Switzerland disposable supplies – Barmaan Dental South Africa" width="640" height="480" loading="eager" fetchpriority="high" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="cats">
+    <div class="container">
+      <h2 class="section-title">Precision Product Categories</h2>
+      <p class="section-sub">Explore our comprehensive range of Dispotech medical &amp; dental solutions engineered for reliability and clinical success.</p>
+      <div class="cats-grid">
+        {catList.map((c, i) => (
+          <a href={`/product-category/${c.slug}/`} class={`cat-card ${i === 1 ? 'cat-card-img' : ''}`}>
+            {i === 1 ? (
+              <img src={heroImg.src} alt={`Dispotech dental tray with instruments – ${c.name} category at Barmaan Dental`} width="640" height="480" loading="lazy" />
+            ) : (
+              <>
+                <h3>{c.name}</h3>
+                <p>{catMeta[c.slug] || c.description}</p>
+                <span class="view">VIEW PRODUCTS <span aria-hidden="true">→</span></span>
+              </>
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="container">
+      <h2 class="section-title">The Swiss Standard of Service</h2>
+      <p class="section-sub">Beyond premium products, we deliver dependable service built on precision, ensuring every South African practitioner receives consistent support and trust.</p>
+      <div class="feat-grid">
+        {features.map((f) => (
+          <div class="feat">
+            <div class="feat-icon" aria-hidden="true">{f.icon}</div>
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="precision-band">
+        <div class="pb-text">
+          <h2>Precision That Defines the Industry</h2>
+          <p>Dispotech combines Swiss engineering expertise with advanced biomaterials to deliver products trusted by dental professionals worldwide. Every solution is developed and manufactured in Switzerland under rigorous quality standards to ensure precision, reliability, and consistent clinical performance.</p>
+          <a href="/shop/" class="btn btn-outline-white">Explore Our Products</a>
+        </div>
+        <div class="pb-img">
+          <img src={heroImg.src} alt="Dental professionals preparing Dispotech Switzerland products – Swiss precision manufacturing" width="560" height="420" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing CTA -->
+  <section class="pricing-cta">
+    <div class="container">
+      <h2 class="section-title">Expert Guidance &amp; Tailored Pricing</h2>
+      <p class="section-sub">To ensure clinical compatibility and the best possible value for your practice, all pricing is provided upon request. Our specialists are ready to assist with technical specs and volume quotes.</p>
+      <div class="center-btns">
+        <a href="/contact-us/" class="btn btn-blue">Request Pricing</a>
+        <a href={whatsappLink('Hello Barmaan Dental, I would like a quotation.')} target="_blank" rel="noopener" class="btn btn-green">WhatsApp Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community -->
+  <section class="community">
+    <div class="container">
+      <h2 class="section-title">Serving the Medical Community</h2>
+      <div class="comm-grid">
+        <div class="comm-card">
+          <h3>For Dentists</h3>
+          <p>Enhance your daily practice with premium dental consumables, infection-control solutions, and clinical essentials designed for efficiency and reliability.</p>
+        </div>
+        <div class="comm-card">
+          <h3>For Clinics</h3>
+          <p>Bulk supply solutions and fully integrated dental &amp; medical consumables for multi-chair practices.</p>
+        </div>
+        <div class="comm-card">
+          <h3>For Resellers</h3>
+          <p>Official partnership opportunities for regional distributors across South Africa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .hero { padding: 60px 0 70px; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 50px; align-items: center; }
+    .hero-text h1 { font-size: clamp(1.9rem, 4vw, 2.8rem); margin-bottom: 26px; }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 26px; }
+    .hero-note { font-size: 0.95rem; }
+    .hero-img img { border-radius: 18px; width: 100%; object-fit: cover; aspect-ratio: 4/3; }
+
+    .cats { background: var(--bg-light); padding: 64px 0; }
+    .cats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .cat-card {
+      background: var(--white); border-radius: 16px; padding: 28px;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .cat-card:hover { transform: translateY(-4px); box-shadow: 0 10px 26px rgba(13,110,166,.14); }
+    .cat-card h3 { font-size: 1.35rem; }
+    .cat-card p { font-size: 0.88rem; flex: 1; }
+    .view { font-weight: 700; font-size: 0.8rem; color: var(--blue); letter-spacing: .04em; }
+    .cat-card-img { padding: 0; overflow: hidden; }
+    .cat-card-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    .features { padding: 64px 0; }
+    .feat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-bottom: 60px; }
+    .feat-icon { font-size: 1.6rem; margin-bottom: 10px; }
+    .feat h3 { font-size: 1.15rem; margin-bottom: 8px; }
+    .feat p { font-size: 0.86rem; }
+
+    .precision-band {
+      background: var(--blue); border-radius: 22px; color: var(--white);
+      display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px;
+      padding: 44px; align-items: center;
+    }
+    .precision-band h2 { color: var(--white); font-size: clamp(1.5rem, 3vw, 2.1rem); margin-bottom: 16px; }
+    .precision-band p { font-size: 0.92rem; margin-bottom: 22px; opacity: .95; }
+    .pb-img img { border-radius: 14px; width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+
+    .pricing-cta { padding: 30px 0 70px; }
+    .center-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+    .community { background: var(--bg-light); padding: 64px 0; }
+    .comm-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 40px; }
+    .comm-card { background: var(--white); border: 1px solid #d9edf9; border-radius: 16px; padding: 28px; }
+    .comm-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
+    .comm-card p { font-size: 0.88rem; }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      .cats-grid, .comm-grid { grid-template-columns: 1fr 1fr; }
+      .feat-grid { grid-template-columns: 1fr 1fr; }
+      .precision-band { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .cats-grid, .feat-grid, .comm-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</BaseLayout>

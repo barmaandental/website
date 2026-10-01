@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { seoTitle, seoDescription } from '../data/site';
+---
+
+<BaseLayout
+  title={seoTitle('Page Not Found')}
+  description={seoDescription('The page you are looking for was not found. Explore Barmaan Dental products and catalogues.', 'Page not found')}
+  noindex
+>
+  <section class="nf">
+    <div class="container">
+      <h1>404</h1>
+      <p>The page you are looking for doesn't exist or has been moved.</p>
+      <div class="nf-links">
+        <a href="/" class="btn btn-blue">Go Home</a>
+        <a href="/shop/" class="btn btn-green">Browse Products</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .nf { text-align: center; padding: 110px 0; }
+    .nf h1 { font-size: 4.5rem; }
+    .nf p { margin: 10px 0 28px; color: #6a7a88; }
+    .nf-links { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+  </style>
+</BaseLayout>

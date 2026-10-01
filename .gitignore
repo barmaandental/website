@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.astro/
+
+# Local tooling (portable Node runtime - not part of the source)
+.tools/
+
+# Logs
+preview.log
+*.log
+
+# Environment & secrets
+.env
+.env.*
+*.pem
+*.key
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Freebuff workspace metadata
+.freebuff/

@@ -1,0 +1,151 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site, seo } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+  image?: string;
+  type?: string;
+  noindex?: boolean;
+  jsonLd?: object | object[];
+}
+
+const { title, description, path = '', image, type = 'website', noindex = false, jsonLd } = Astro.props;
+const s = seo({ title, description, path, image, type });
+
+const orgLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: site.name,
+  url: site.domain,
+  logo: `${site.domain}/logo.webp`,
+  description: site.tagline,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: site.phone,
+    email: site.email,
+    contactType: 'sales',
+    areaServed: 'ZA',
+    availableLanguage: ['English'],
+  },
+};
+const ldList = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{s.title}</title>
+    <meta name="description" content={s.description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={s.url} />
+    <link rel="icon" type="image/webp" href="/favicon.webp" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={s.title} />
+    <meta property="og:description" content={s.description} />
+    <meta property="og:url" content={s.url} />
+    <meta property="og:type" content={s.type} />
+    <meta property="og:image" content={s.ogImage} />
+    <meta property="og:locale" content="en_ZA" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={s.title} />
+    <meta name="twitter:description" content={s.description} />
+    <meta name="twitter:image" content={s.ogImage} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(orgLd)} />
+    {ldList.map((ld) => <script type="application/ld+json" set:html={JSON.stringify(ld)} />)}
+
+    <style is:global>
+      @font-face {
+        font-family: 'Poppins';
+        src: local('Poppins'), url('https://fonts.gstatic.com/s/poppins/v21/pxiEyp8kv8JHgFVrJJfecg.woff2') format('woff2');
+        font-display: swap;
+      }
+      :root {
+        --blue: #1596d8;
+        --blue-dark: #0e7bb8;
+        --blue-deep: #0d6ea6;
+        --green: #2ec24e;
+        --text: #3a4a58;
+        --heading: #1d9ad6;
+        --bg-light: #eaf6fd;
+        --white: #ffffff;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        color: var(--text);
+        background: var(--white);
+        line-height: 1.7;
+        -webkit-font-smoothing: antialiased;
+      }
+      img { max-width: 100%; height: auto; }
+      a { text-decoration: none; color: inherit; }
+      h1, h2, h3, h4 { color: var(--heading); line-height: 1.25; }
+      .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+      .btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 12px 28px; border-radius: 999px;
+        font-weight: 600; font-size: 0.95rem;
+        transition: all 0.25s ease; cursor: pointer; border: none;
+      }
+      .btn-blue { background: var(--blue); color: var(--white); }
+      .btn-blue:hover { background: var(--blue-dark); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(21,150,216,.3); }
+      .btn-green { background: var(--green); color: var(--white); }
+      .btn-green:hover { background: #27ad43; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(46,194,78,.3); }
+      .btn-gray { background: #8a959e; color: var(--white); }
+      .btn-gray:hover { background: #76828c; transform: translateY(-2px); }
+      .btn-outline-white { background: var(--white); color: var(--blue); border: 1px solid #d5e9f5; }
+      .btn-outline-white:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.08); }
+
+      .section-title { font-size: clamp(1.7rem, 3.5vw, 2.3rem); text-align: center; margin-bottom: 12px; }
+      .section-sub { text-align: center; max-width: 720px; margin: 0 auto 44px; font-size: 0.95rem; }
+
+      @media (max-width: 768px) {
+        .btn { padding: 10px 20px; font-size: 0.88rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <Header currentPath={path} />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Floating WhatsApp button -->
+    <a
+      href={`https://wa.me/${site.whatsapp}`}
+      class="wa-float"
+      target="_blank"
+      rel="noopener"
+      aria-label="Chat with Barmaan Dental on WhatsApp"
+    >
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="white" aria-hidden="true"><path d="M16 2.7C8.7 2.7 2.7 8.6 2.7 16c0 2.3.6 4.6 1.8 6.6L2.6 29.4l7-1.8c1.9 1.1 4.1 1.6 6.4 1.6 7.3 0 13.3-6 13.3-13.3S23.3 2.7 16 2.7zm0 24.3c-2 0-4-.5-5.7-1.6l-.4-.2-4.1 1.1 1.1-4-.3-.4c-1.1-1.8-1.7-3.8-1.7-5.9 0-6.1 5-11.1 11.1-11.1S27.1 9.9 27.1 16s-5 11-11.1 11zm6.1-8.3c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.2-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.6-.1-.2-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8s1.2 3.2 1.3 3.4c.2.2 2.4 3.7 5.8 5.2.8.4 1.4.6 1.9.7.8.3 1.6.2 2.2.1.7-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.2-.3-.3-.6-.4z"/></svg>
+    </a>
+
+    <style>
+      .wa-float {
+        position: fixed; bottom: 22px; right: 22px; z-index: 90;
+        width: 56px; height: 56px; border-radius: 50%;
+        background: var(--green);
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 4px 14px rgba(46,194,78,.45);
+        transition: transform .2s ease;
+      }
+      .wa-float:hover { transform: scale(1.08); }
+    </style>
+  </body>
+</html>

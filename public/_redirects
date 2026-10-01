@@ -1,0 +1,10 @@
+# Redirects for SEO – preserve old WordPress URLs
+# 301 permanent redirects from legacy paths
+
+/index.php/*  /:splat  301
+/wp-content/uploads/*  /  301
+/feed/  /  301
+/page/*  /shop/  301
+
+# Common WordPress product URL variations
+/product-category/uncategorized/  /shop/  301
